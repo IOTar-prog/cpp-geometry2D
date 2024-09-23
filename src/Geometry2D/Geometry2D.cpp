@@ -3,7 +3,6 @@
 #include <iostream>
 #include <string>
 
-const string PATH = "C:/Users/ilyat/Desktop/cpp geometry/cpp-geometry2D/data/txt.txt";
 using namespace std;
 
 class ConsoleConfig {
@@ -12,7 +11,7 @@ private:
 	string geometryFilePath;
 
 public:
-	void ReadCommandLineArgs(int argc, char* argv[], ConsoleConfig& ConsConf) {
+	void ReadCommandLineArgs(int argc, char* argv[]) {
 		for (int i = 0; i < argc; i++) {
 			if (i + 1 < argc) {
 				if (string(argv[i]) == "-ff") {
@@ -133,13 +132,16 @@ public:
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "Russian");
+	string PATH_test = "C:/Users/ilyat/Desktop/cpp geometry/cpp-geometry2D/data/txt.txt";
 
 	ConsoleConfig ConsConf;
 	GeometryDescription Geometry2D;
 
-	//ConsConf.ReadCommandLineArgs(argc, argv, PATH);
-	ConsConf.SetPath(PATH);									// PATH - test
-	Geometry2D.ReadArgsFromFile(PATH);
+	ConsConf.SetPath(PATH_test);
+
+	ConsConf.ReadCommandLineArgs(argc, argv);
+	//ConsConf.SetPath(PATH);									// PATH - test
+	//Geometry2D.ReadArgsFromFile(PATH);
 
 	//cout << " Print: ";
 	//Geometry2D.Print(PATH);
