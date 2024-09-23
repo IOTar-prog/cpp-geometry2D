@@ -132,19 +132,27 @@ public:
 int main(int argc, char* argv[])
 {
 	setlocale(LC_ALL, "Russian");
-	string PATH_test = "C:/Users/ilyat/Desktop/cpp geometry/cpp-geometry2D/data/txt.txt";
+	string PATH_test = "C:/Users/ilyat/Desktop/cpp geometry/cpp-geometry2D/data/txt.txt"; // PATH - test
 
 	ConsoleConfig ConsConf;
 	GeometryDescription Geometry2D;
 
-	ConsConf.SetPath(PATH_test);
+	ConsConf.SetPath(PATH_test);														  // PATH - test
 
+	cout << "ConsoleConfig tests: \n";
 	ConsConf.ReadCommandLineArgs(argc, argv);
-	//ConsConf.SetPath(PATH);									// PATH - test
-	//Geometry2D.ReadArgsFromFile(PATH);
+	cout << ConsConf.TakePath() << endl;
+	cout << ConsConf.TakeFormat() << endl;
+	cout << "ConsoleConfig tests end. \n" << endl;
 
-	//cout << " Print: ";
-	//Geometry2D.Print(PATH);
+	cout << "GeometryDescription tests: \n";
+	Geometry2D.ReadArgsFromFile(PATH_test);
+	cout << Geometry2D.Take(1) << endl;
+	cout << Geometry2D.Take(2) << endl;
+	cout << Geometry2D.Take(3) << endl;
+	cout << Geometry2D.Take(4)<< "\n" << endl;
+	Geometry2D.Print(PATH_test);
+	cout << "GeometryDescription tests end. \n" << endl;
 
 	// Geometry2D.data = new int[Geometry2D.geometryFragmentNumX * Geometry2D.geometryFragmentNumY];//!
 	//Geometry2D.PushToDynamicArr(ConsConf.geometryFilePath);                                      //!
