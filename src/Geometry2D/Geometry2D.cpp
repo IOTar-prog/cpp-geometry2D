@@ -111,18 +111,21 @@ public:
 		ifstream file(filePath);
 		if (file.is_open()) {
 			string line;
+			int data_i = 0;
 
 			//пропускаем первую строку в файле
 			getline(file, line);
 
-			while (getline(file, line)) {
+			for (int i = 0; i < geometryFragmentNumX; i++) {
+				getline(file, line);
 				// проверка комментариев
 				if (line[0] == char("/") and line[1] == char("/")) {
 					continue;
 				}
 				else {
-					for (int i = 0; i < size(line); i++) {
-						data[i] = line[i] - '0';
+					for (int n = 0; n < geometryFragmentNumY; n++) {
+						data[data_i] = line[n] - '0';
+						data_i++;
 					}
 				}
 			}
