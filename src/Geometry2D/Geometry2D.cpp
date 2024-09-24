@@ -139,7 +139,21 @@ public:
 	//выводим массив в консоль
 	void PrintArr() {
 		for (int i = 0; i < geometryFragmentNumX * geometryFragmentNumY; i++) {
-		cout << data[i];
+			cout << data[i];
+		}
+	}
+
+	//конструктор
+	GeometryDescription()
+	{
+		int geometryFragmentSizeX = 0;
+		int geometryFragmentSizeY = 0;
+		int geometryFragmentNumX = 0;
+		int geometryFragmentNumY = 0;
+		int* data = new int[20];
+
+		for (int i = 0; i < 20; i++) {
+			data[i] = i;
 		}
 	}
 
@@ -167,14 +181,14 @@ int main(int argc, char* argv[])
 	cout << Geometry2D.Take(1) << endl;
 	cout << Geometry2D.Take(2) << endl;
 	cout << Geometry2D.Take(3) << endl;
-	cout << Geometry2D.Take(4)<< "\n" << endl;
+	cout << Geometry2D.Take(4) << "\n" << endl;
 	Geometry2D.Print(PATH_test);
 	cout << "GeometryDescription tests end. \n" << endl;
 
 	//создаём и заполняем массив
 	size_t size = Geometry2D.Take(3) * Geometry2D.Take(4);
 	Geometry2D.InitArr(size);
-	Geometry2D.PushToDynamicArr(ConsConf.TakePath());        
+	Geometry2D.PushToDynamicArr(ConsConf.TakePath());
 
 	//выводим массив
 	Geometry2D.PrintArr();
