@@ -101,13 +101,20 @@ public:
 		}
 	}
 
+	//инициализируем массив с заданным размером
+	void InitArr(size_t size) {
+		data = new int[size];
+	}
+
 	//вносим модель в динамический массив
-	void PushToDynamicArr(string& filePath) {
+	void PushToDynamicArr(string filePath) {
 		ifstream file(filePath);
 		if (file.is_open()) {
 			string line;
+
+			//пропускаем первую строку в файле
 			getline(file, line);
-			int data_i = 0;
+
 			while (getline(file, line)) {
 				// проверка комментариев
 				if (line[0] == char("/") and line[1] == char("/")) {
@@ -115,8 +122,7 @@ public:
 				}
 				else {
 					for (int i = 0; i < size(line); i++) {
-						data[data_i] = line[i];
-						data_i++;
+						data[i] = line[i] - '0';
 					}
 				}
 			}
@@ -127,7 +133,15 @@ public:
 		}
 	}
 
+	//выводим массив в консоль
+	void PrintArr() {
+		for (int i = 0; i < geometryFragmentNumX * geometryFragmentNumY; i++) {
+		cout << data[i];
+		}
+	}
+
 };
+
 
 int main(int argc, char* argv[])
 {
@@ -154,13 +168,12 @@ int main(int argc, char* argv[])
 	Geometry2D.Print(PATH_test);
 	cout << "GeometryDescription tests end. \n" << endl;
 
-	// Geometry2D.data = new int[Geometry2D.geometryFragmentNumX * Geometry2D.geometryFragmentNumY];//!
-	//Geometry2D.PushToDynamicArr(ConsConf.geometryFilePath);                                      //!
+	//создаём и заполняем массив
+	size_t size = Geometry2D.Take(3) * Geometry2D.Take(4);
+	Geometry2D.InitArr(size);
+	Geometry2D.PushToDynamicArr(ConsConf.TakePath());        
 
-	 //for (int i = 0; i < Geometry2D.geometryFragmentNumX * Geometry2D.geometryFragmentNumY; i++) {
-	 //    cout << Geometry2D.data[i];
-	 //}
-	//int* new_data = new int[Geometry2D.geometryFragmentNumX * Geometry2D.geometryFragmentNumY];
-
+	//выводим массив
+	Geometry2D.PrintArr();
 }
 
