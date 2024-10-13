@@ -6,106 +6,191 @@
 using namespace std;
 
 class ConsoleConfig {
-public:
-    string geometryFileFormat;
-    string geometryFilePath;
+private:
+	string geometryFileFormat;
+	string geometryFilePath;
 
-    void ReadCommandLineArgs(int argc, char* argv[], ConsoleConfig& ConsConf) {
-        for (int i = 0; i < argc; i++) {
-            if (i + 1 < argc) {
-                if (string(argv[i]) == "-ff") {
-                    ConsConf.geometryFileFormat = string(argv[i + 1]);
-                }
-                if (string(argv[i]) == "-fp") {
-                    ConsConf.geometryFilePath = string(argv[i + 1]);
-                }
-            }
-        }
-    }
+public:
+	void ReadCommandLineArgs(int argc, char* argv[]) {
+		for (int i = 0; i < argc; i++) {
+			if (i + 1 < argc) {
+				if (string(argv[i]) == "-ff") {
+					SetFormat(string(argv[i + 1]));
+				}
+				if (string(argv[i]) == "-fp") {
+					SetPath(string(argv[i + 1]));
+				}
+			}
+		}
+	}
+
+	void SetPath(string Path) {
+		geometryFilePath = Path;
+	}
+	string TakePath() {
+		return geometryFilePath;
+	}
+
+	void SetFormat(string Format) {
+		geometryFileFormat = Format;
+	}
+	string TakeFormat() {
+		return geometryFileFormat;
+	}
 };
 
-class GeometreDescription {
+class GeometryDescription {
+private:
+	int geometryFragmentSizeX;
+	int geometryFragmentSizeY;
+	int geometryFragmentNumX;
+	int geometryFragmentNumY;
+	int* data;
+
 public:
-    int geometryFragmentSizeX;
-    int geometryFragmentSizeY;
-    int geometryFragmentNumX;
-    int geometryFragmentNumY;
-    int* data;
 
-    //выводим содержимое файла
-    void Print(string& filePath) {
-        ifstream file(filePath);
-        if (file.is_open()) {
-            string line;
-            while (getline(file, line)) {
-                cout << line << "\n";
-            }
-            file.close();
-        }
-        else {
-            cout << "Error. File is not opened! \n" << filePath << endl;
-        }
-    }
+	//вводим значения из файла
+	void ReadArgsFromFile(string Path) {
+		ifstream file(Path);
+		if (file.is_open()) {
 
-    //вносим модель в динамический массив
-    void PushToDynamicArr(string& filePath) {
-        ifstream file(filePath);
-        if (file.is_open()) {
-            string line;
-            getline(file, line);
-            int data_i = 0;
-            while (getline(file, line)) {
-                // проверка комментариев
-                if (line[0] == char("/") and line[1] == char("/")) {
-                    continue;
-                }
-                else {
-                    for (int i = 0; i < size(line); i++) {
-                        data[data_i] = line[i];
-                        data_i++;
-                    }
-                }
-            }
-            file.close();
-        }
-        else {
-            cout << "Error. File is not opened! \n" << filePath << endl;
-        }
-    }
+			file >> geometryFragmentSizeX;
+			file >> geometryFragmentSizeY;
+			file >> geometryFragmentNumX;
+			file >> geometryFragmentNumY;
+
+			file.close();
+		}
+		else cout << "Error. File is not opened! \n";
+	}
+
+	//возвращаем выбранную переменную
+	int Take(int id) {
+		switch (id)
+		{
+		case 1:
+			return geometryFragmentSizeX;
+			break;
+		case 2:
+			return geometryFragmentSizeY;
+			break;
+		case 3:
+			return geometryFragmentNumX;
+			break;
+		case 4:
+			return geometryFragmentNumY;
+			break;
+		default:
+			cout << " func Take: Error! Wrong id. " << endl;
+			break;
+		}
+	}
+
+	//выводим содержимое файла
+	void Print(string& filePath) {
+		ifstream file(filePath);
+		if (file.is_open()) {
+			string line;
+			while (getline(file, line)) {
+				cout << line << "\n";
+			}
+			file.close();
+		}
+		else {
+			cout << "Error. File is not opened! \n" << filePath << endl;
+		}
+	}
+
+	//инициализируем массив с заданным размером
+	void InitArr(size_t size) {
+		data = new int[size];
+	}
+
+	//вносим модель в динамический массив
+	void PushToDynamicArr(string filePath) {
+		ifstream file(filePath);
+		if (file.is_open()) {
+			string line;
+			int data_i = 0;
+
+			//пропускаем первую строку в файле
+			getline(file, line);
+
+			for (int i = 0; i < geometryFragmentNumX; i++) {
+				getline(file, line);
+				// проверка комментариев
+				if (line[0] == char("/") and line[1] == char("/")) {
+					continue;
+				}
+				else {
+					for (int n = 0; n < geometryFragmentNumY; n++) {
+						data[data_i] = line[n] - '0';
+						data_i++;
+					}
+				}
+			}
+			file.close();
+		}
+		else {
+			cout << "Error. File is not opened! \n" << filePath << endl;
+		}
+	}
+
+	//выводим массив в консоль
+	void PrintArr() {
+		for (int i = 0; i < geometryFragmentNumX * geometryFragmentNumY; i++) {
+			cout << data[i];
+		}
+	}
+
+	//конструктор
+	GeometryDescription()
+	{
+		int geometryFragmentSizeX = 0;
+		int geometryFragmentSizeY = 0;
+		int geometryFragmentNumX = 0;
+		int geometryFragmentNumY = 0;
+		int* data = new int[20];
+
+		for (int i = 0; i < 20; i++) {
+			data[i] = i;
+		}
+	}
 
 };
+
 
 int main(int argc, char* argv[])
-{   
-    setlocale(LC_ALL, "Russian");
+{
+	setlocale(LC_ALL, "Russian");
+	string PATH_test = "C:/Users/ilyat/Desktop/cpp geometry/cpp-geometry2D/data/txt.txt"; // PATH - test
 
-    ConsoleConfig ConsConf;
-    GeometreDescription Geometry2D;
+	ConsoleConfig ConsConf;
+	GeometryDescription Geometry2D;
 
-    ConsConf.ReadCommandLineArgs(argc, argv, ConsConf);
-    ConsConf.geometryFilePath = "C:/Users/ilyat/Desktop/cpp geometry/cpp-geometry2D/data/txt.txt";
-    ifstream file(ConsConf.geometryFilePath); 
-    if (file.is_open()) {
-        
-        file >> Geometry2D.geometryFragmentSizeX;
-        file >> Geometry2D.geometryFragmentSizeY;
-        file >> Geometry2D.geometryFragmentNumX;
-        file >> Geometry2D.geometryFragmentNumY;
-        
-        file.close();
-    }
-    else cout << "Error. File is not opened! \n";
-    
-    cout << " Print: ";
-    Geometry2D.Print(ConsConf.geometryFilePath);
+	ConsConf.SetPath(PATH_test);														  // PATH - test
 
-   // Geometry2D.data = new int[Geometry2D.geometryFragmentNumX * Geometry2D.geometryFragmentNumY];//!
-    //Geometry2D.PushToDynamicArr(ConsConf.geometryFilePath);                                      //!
+	cout << "ConsoleConfig tests: \n";
+	ConsConf.ReadCommandLineArgs(argc, argv);
+	cout << ConsConf.TakePath() << endl;
+	cout << ConsConf.TakeFormat() << endl;
+	cout << "ConsoleConfig tests end. \n" << endl;
 
-    //for (int i = 0; i < Geometry2D.geometryFragmentNumX * Geometry2D.geometryFragmentNumY; i++) {
-    //    cout << Geometry2D.data[i];
-    //}
-    int *new_data = new int[Geometry2D.geometryFragmentNumX * Geometry2D.geometryFragmentNumY];
- 
+	cout << "GeometryDescription tests: \n";
+	Geometry2D.ReadArgsFromFile(PATH_test);
+	cout << Geometry2D.Take(1) << endl;
+	cout << Geometry2D.Take(2) << endl;
+	cout << Geometry2D.Take(3) << endl;
+	cout << Geometry2D.Take(4) << "\n" << endl;
+	Geometry2D.Print(PATH_test);
+	cout << "GeometryDescription tests end. \n" << endl;
+
+	//создаём и заполняем массив
+	size_t size = Geometry2D.Take(3) * Geometry2D.Take(4);
+	Geometry2D.InitArr(size);
+	Geometry2D.PushToDynamicArr(ConsConf.TakePath());
+
+	//выводим массив
+	Geometry2D.PrintArr();
 }
 
