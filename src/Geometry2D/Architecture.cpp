@@ -113,7 +113,7 @@ private:
 		return amount_of_memory;
 	}
 
-	void SgowSpecs() {
+	void ShowSpecs() {
 		cout << " Amount of memory: " << amount_of_memory << "Mb" << "\n";
 		cout << " Frequency: " << freq / 1000 << "MHz" << "\n";
 		cout << " Type: " << type << "\n";
@@ -157,17 +157,31 @@ public:
 		}
 	}
 
-	// как вернуть адреса нескольких элементов?
-	CPU& TakeCpu() {
+	void TakeCpuSpecs() {
+		unsigned short count = CountOfElem(1);
 
+		for (int i = 0; i < count; i++) {
+			CPU_spec[i].ShowSpecs();
+			cout << "\n";
+		}
 	}
 
-	GPU& TakeGpu() {
+	void TakeGpuSpecs() {
+		unsigned short count = CountOfElem(2);
 
+		for (int i = 0; i < count; i++) {
+			GPU_spec[i].ShowSpecs();
+			cout << "\n";
+		}
 	}
 
-	RAM& TakeRam() {
+	void TakeRamSpecs() {
+		unsigned short count = CountOfElem(3);
 
+		for (int i = 0; i < count; i++) {
+			RAM_spec[i].ShowSpecs();
+			cout << "\n";
+		}
 	}
 
 };
