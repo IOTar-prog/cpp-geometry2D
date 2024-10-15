@@ -37,7 +37,7 @@ public:
 class GPU {
 private:
 	unsigned int amount_of_memory;
-	unsigned int ñore_freq;
+	unsigned int core_freq;
 	unsigned int memory_freq;
 	unsigned short memory_bus_width;
 public:
@@ -76,18 +76,18 @@ public:
 
 	void ShowSpecs() {
 		cout << " Amount of memory: " << amount_of_memory << "Mb" << "\n";
-		cout << " Core frequency: " << ñore_freq / 1000 << "MHz" << "\n";
+		cout << " Core frequency: " << Ã±ore_freq / 1000 << "MHz" << "\n";
 		cout << " Memory frequency: " << memory_freq / 1000 << "MHz" << "\n";
 		cout << " Memory bus width: " << memory_bus_width << "Bit" << "\n";
 	}
 }
 
 class Ram {
-public:
+private:
 	string type;
 	unsigned int freq;
 	unsigned int amount_of_memory;
-private:
+public:
 
 	void SetType(string DDR_type) {
 		type = DDR_type;
@@ -139,7 +139,7 @@ public:
 		RAM_spec.push_back(RAM_object)
 	}
 
-	// êîëè÷åñòâî ýëåìåíòîâ â ñîîòâåòñòâóþùåì âåêòîðå
+	// ÃªÃ®Ã«Ã¨Ã·Ã¥Ã±Ã²Ã¢Ã® Ã½Ã«Ã¥Ã¬Ã¥Ã­Ã²Ã®Ã¢ Ã¢ Ã±Ã®Ã®Ã²Ã¢Ã¥Ã²Ã±Ã²Ã¢Ã³Ã¾Ã¹Ã¥Ã¬ Ã¢Ã¥ÃªÃ²Ã®Ã°Ã¥
 	unsigned short CountOfElem(unsigned short id_of_elem) {
 		switch (id_of_elem) {
 		case 1:
