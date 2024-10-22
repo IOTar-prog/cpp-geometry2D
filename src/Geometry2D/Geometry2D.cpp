@@ -192,5 +192,6 @@ int main(int argc, char* argv[])
 
 	//выводим массив
 	Geometry2D.PrintArr();
+
 }
 

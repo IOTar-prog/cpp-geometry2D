@@ -185,3 +185,40 @@ public:
 	}
 
 };
+
+class Cluster {
+private:
+	vector<Node> ClusterVec;
+public:
+	void AddNode(const Node& Node_object) {
+		ClusterVec.push_back(Node_object);
+	}
+};
+
+template <typename T = class Vector double>
+class Vector {
+private:
+	size_t Size;
+	T* data;
+public:
+	void Init() {
+		data = new T[Size];
+	}
+};
+
+template <typename T = class VectorHCS double>
+class VectorHCS {
+private:
+	Cluster* _cluster;
+	size_t _size;
+	size_t _nodeOffSet;
+	size_t _deviceOffSet;
+	size_t _blockSize;
+	T* _data;
+	int _nodeIndex;
+	int _deviceIndex;
+public:
+	void VectorInit() {
+		_data = new T[_blockSize];
+	}
+};
